@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Form, FormGroup, FormControl, InputGroup, Button } from 'react-bootstrap';
 
 
-export default class MessageBox extends Component {
+export default class MessageForm extends Component {
   constructor(props) {
     super(props);
   }
