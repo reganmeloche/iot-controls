@@ -1,34 +1,59 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Radio, ControlLabel, Col } from 'react-bootstrap';
 
-export default class LightControl extends Component {
-  constructor(props) {
-    super(props);
-  }
+import { connect } from 'react-redux';
+import { toggleLight } from '../actions/index';
 
-  render() {
-    return (
-        <div>
-            <Form horizontal>
-                <FormGroup>
-                    <Col componentClass={ControlLabel} xs={3} xsOffset={2}>
-                        Light Colour:
-                    </Col>
-                    <Col xs={5} >
-                        <Radio name="radioGroup" inline>
-                            Red
-                        </Radio>{' '}
-                        <Radio name="radioGroup" inline>
-                            Green
-                        </Radio>{' '}
-                        <Radio name="radioGroup" inline>
-                            Blue
-                        </Radio>
-                    </Col>
-                </FormGroup>
-            </Form>
-        </div>
-    );
-  }
+class LightControl extends Component {
+    constructor(props) {
+        super(props);
+        this.toggle = this.toggle.bind(this);
+      }
+    
+    toggle(val) {
+        this.props.toggleLight(val);
+    }
+
+    render() {
+        const status = this.props.light.status;
+
+        return (
+            <div>
+                <Form horizontal>
+                    <FormGroup>
+                        <Col componentClass={ControlLabel} xs={3} xsOffset={2}>
+                            Toggle light:
+                        </Col>
+                        <Col xs={4} >
+                            <Radio 
+                                name="radioGroup" 
+                                checked={status}
+                                onChange={this.toggle.bind(this, true)}
+                                inline
+                            >
+                                On
+                            </Radio>{' '}
+                            <Radio 
+                                name="radioGroup" 
+                                checked={!status} 
+                                onChange={this.toggle.bind(this, false)}
+                                inline
+                            >
+                                Off
+                            </Radio>{' '}
+                        </Col>
+                    </FormGroup>
+                </Form>
+            </div>
+        );
+    }
 }
 
+function mapStateToProps(state) {
+    return {
+      light: state.light,
+    };
+  }
+  
+  export default connect(mapStateToProps, { toggleLight })(LightControl);
+  

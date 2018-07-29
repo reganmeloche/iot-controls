@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
-import { Row, ControlLabel, Col, Button, Glyphicon } from 'react-bootstrap';
+import { Row, ControlLabel, Col, Glyphicon } from 'react-bootstrap';
 
-export default class TempReader extends Component {
-  constructor(props) {
-    super(props);
-  }
+import { connect } from 'react-redux';
+import { readTemp } from '../actions/index';
+
+class TempReader extends Component {
+    constructor(props) {
+        super(props);
+        this.getTemp = this.getTemp.bind(this);
+    }
+    
+    getTemp() {
+        this.props.readTemp();
+    }
 
   render() {
+    const tempValue = this.props.temperature.value;
+    const tempDate = this.props.temperature.date;
+
     return (
         <div>
             <Row>
@@ -16,10 +27,10 @@ export default class TempReader extends Component {
                     </ControlLabel>
                 </Col>
                 <Col xs={2}>
-                    [Reading]
+                    {tempValue}
                 </Col>
                 <Col xs={2}>
-                    <a href="#">
+                    <a href="#" onClick={this.getTemp}>
                         <Glyphicon glyph="glyphicon glyphicon-refresh" />
                     </a>
                 </Col>
@@ -30,12 +41,21 @@ export default class TempReader extends Component {
                         Last reading:
                     </ControlLabel>
                 </Col>
-                <Col xs={2}>
-                    [Date]
+                <Col xs={6}>
+                    {tempDate}
                 </Col>
             </Row>
         </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+    return {
+      temperature: state.temperature,
+    };
+}
+  
+export default connect(mapStateToProps, { readTemp })(TempReader);
+
 

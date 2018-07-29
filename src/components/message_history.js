@@ -1,31 +1,32 @@
 import React, { Component } from 'react';
-
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
-
-export default class MessageHistory extends Component {
+class MessageHistory extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
+    let messageList = this.props.messageHistory.map((x, i) => {
+      return (<ListGroupItem key={i}>{x.text}</ListGroupItem>);
+    });
+    
     return (
         <div className="message_history">
             <ListGroup>
-                <ListGroupItem>Item 1</ListGroupItem>
-                <ListGroupItem>Item 2</ListGroupItem>
-                <ListGroupItem>Item 1</ListGroupItem>
-                <ListGroupItem>Item 2</ListGroupItem>
-                <ListGroupItem>Item 1</ListGroupItem>
-                <ListGroupItem>Item 2</ListGroupItem>
-                <ListGroupItem>Item 1</ListGroupItem>
-                <ListGroupItem>Item 2</ListGroupItem>
-                <ListGroupItem>Item 1</ListGroupItem>
-                <ListGroupItem>Item 2</ListGroupItem>
-                <ListGroupItem>...</ListGroupItem>
+                {messageList}
             </ListGroup>
         </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    messageHistory: state.messages,
+  };
+}
+
+export default connect(mapStateToProps, null)(MessageHistory);
 
