@@ -1,5 +1,6 @@
-//import axios from 'axios';
+import axios from 'axios';
 import moment from 'moment';
+import keys from '../config/keys';
 
 export const INIT = 'init';
 export const SEND_MESSAGE = 'send_message';
@@ -9,10 +10,21 @@ export const TOGGLE_LIGHT = 'toggle_light';
 export const READ_TEMP = 'read_temp';
 export const CONTROL = 'control';
 
+const basePath = `${keys.cloudHost}/${keys.deviceId}`;
+const LEDPin = 2;
+
 export function init() {
+    console.log('Initializing...');
+    const request = axios({
+        method: 'get',
+        url: `${basePath}/mode/${LEDPin}/o`,
+    }).then((res) => {
+        console.log('Done initializing');
+    });
+    
     return {
         type: INIT,
-        payload: {test: 1},
+        payload: null,
     };
 }
 
@@ -35,17 +47,23 @@ export function fetchMessages() {
 
 export function readLight() {
     console.log('Reading light...');
+    const request = axios({
+        method: 'get',
+        url: `${basePath}/digital/${LEDPin}`,
+    });
     return {
         type: READ_LIGHT,
-        payload: {
-            status: true,
-        },
+        payload: request,
     };
 }
 
 export function toggleLight(turnOn) {
     console.log(`Toggling light ${turnOn}...`);
-    // Turn the light on/off
+    const val = turnOn ? 1 : 0;
+    const request = axios({
+        method: 'get',
+        url: `${basePath}/digital/${LEDPin}/${val}`,
+    });
     return {
         type: TOGGLE_LIGHT,
         payload: {

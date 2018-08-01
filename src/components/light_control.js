@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { Form, FormGroup, Radio, ControlLabel, Col } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
-import { toggleLight } from '../actions/index';
+import { toggleLight, readLight } from '../actions/index';
 
 class LightControl extends Component {
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
-      }
+    }
+
+    componentDidMount() {
+        this.props.readLight();
+    }
     
     toggle(val) {
         this.props.toggleLight(val);
@@ -55,5 +59,5 @@ function mapStateToProps(state) {
     };
   }
   
-  export default connect(mapStateToProps, { toggleLight })(LightControl);
+  export default connect(mapStateToProps, { toggleLight, readLight })(LightControl);
   

@@ -8,13 +8,18 @@ export default function(state = null, action) {
     switch (action.type) {
         case READ_LIGHT:
             result =  action.payload;
+            if (action.payload && action.payload.data) {
+                result = {
+                    status: action.payload.data.return_value === 1,
+                };
+            }
             break;
         case TOGGLE_LIGHT:
             result = action.payload;
             break;
         default:
             result = {
-                status: true,
+                status: false,
             };
             break;
     }

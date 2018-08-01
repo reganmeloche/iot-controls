@@ -14,40 +14,40 @@ class TempReader extends Component {
         this.props.readTemp();
     }
 
-  render() {
-    const tempValue = this.props.temperature.value;
-    const tempDate = this.props.temperature.date;
+    render() {
+        const tempValue = this.props.temperature.value;
+        const tempDate = this.props.temperature.date;
 
-    return (
-        <div>
-            <Row>
-                <Col xs={4} xsOffset={2}>
-                    <ControlLabel>
-                        Temperature (C):
-                    </ControlLabel>
-                </Col>
-                <Col xs={2}>
-                    {tempValue}
-                </Col>
-                <Col xs={2}>
-                    <a href="#" onClick={this.getTemp}>
-                        <Glyphicon glyph="glyphicon glyphicon-refresh" />
-                    </a>
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={4} xsOffset={2}>
-                    <ControlLabel>
-                        Last reading:
-                    </ControlLabel>
-                </Col>
-                <Col xs={6}>
-                    {tempDate}
-                </Col>
-            </Row>
-        </div>
-    );
-  }
+        return (
+            <div>
+                <Row>
+                    <Col xs={4} xsOffset={2}>
+                        <ControlLabel>
+                            Temperature (C):
+                        </ControlLabel>
+                    </Col>
+                    <Col xs={2}>
+                        {tempValue}
+                    </Col>
+                    <Col xs={2}>
+                        <a href="#" onClick={this.getTemp}>
+                            <Glyphicon glyph="glyphicon glyphicon-refresh" />
+                        </a>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={4} xsOffset={2}>
+                        <ControlLabel>
+                            Last reading:
+                        </ControlLabel>
+                    </Col>
+                    <Col xs={6}>
+                        {tempDate}
+                    </Col>
+                </Row>
+            </div>
+        );
+    }
 }
 
 function mapStateToProps(state) {
