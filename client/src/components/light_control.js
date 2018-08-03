@@ -19,7 +19,10 @@ class LightControl extends Component {
     }
 
     render() {
-        const status = this.props.light.status;
+        let status = false;
+        if (this.props.light) {
+            status = this.props.light.status;
+        }
 
         return (
             <div>

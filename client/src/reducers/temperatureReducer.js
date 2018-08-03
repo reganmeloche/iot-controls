@@ -7,13 +7,15 @@ export default function(state = null, action) {
 
     switch (action.type) {
         case READ_TEMP:
-            result =  action.payload;
+            if (action.payload && action.payload.data) {
+                result =  action.payload.data;
+            }      
             break;
         default:
-            result = {
-                value: 'Unknown',
-                date: 'Unknown',
-            };
+            // result = {
+            //     value: 'Unknown',
+            //     date: 'Unknown',
+            // };
             break;
     }
     return result;

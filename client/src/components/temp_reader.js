@@ -15,8 +15,14 @@ class TempReader extends Component {
     }
 
     render() {
-        const tempValue = this.props.temperature.value;
-        const tempDate = this.props.temperature.date;
+
+        let tempValue = 'unknown';
+        let tempDate = 'unknown';
+
+        if (this.props.temperature) {
+            tempValue = this.props.temperature.value;
+            tempDate = this.props.temperature.date;
+        }
 
         return (
             <div>
