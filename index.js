@@ -1,11 +1,14 @@
 'use strict';
 
 const express = require('express');
-const bodyParser = require('body-parser');
-const proxy = require('express-http-proxy');
-
+const mongoose = require('mongoose');
 const keys = require('./config/keys');
 
+require('./src/models');
+mongoose.connect(keys.mongoUri);
+
+const bodyParser = require('body-parser');
+const proxy = require('express-http-proxy');
 const app = express();
 
 

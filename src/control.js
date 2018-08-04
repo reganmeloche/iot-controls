@@ -5,6 +5,8 @@ const keys = require('../config/keys');
 const basePath = `${keys.cloudHost}/${keys.deviceId}`;
 const LEDPin = 2;
 
+const MessageLib = require('./messageLib');
+
 module.exports = function (app) {
     
     app.post('/api/init', (req, res) => {
@@ -14,6 +16,7 @@ module.exports = function (app) {
                 console.log('Done initializing');
                 res.status(201).send({ done: true });
             }).catch((err) => { throw err});
+            
     });
 
     app.post('/api/light', (req, res) => {
@@ -40,14 +43,17 @@ module.exports = function (app) {
 
     app.post('/api/message', (req, res) => {
         console.log('Saving message to db...');
-        // Save to db
-        res.status(201).send({ done: true });
+        MessageLib.save(req.body).then((result) => {
+            res.status(201).send(result);
+        });
     });
 
     app.get('/api/message', (req, res) => {
         console.log('Fetching message history...');
-        // Get from db
-        res.status(200).send({ messages: fakeMessages });
+        MessageLib.getAll().then(result => {
+            console.log('RES', result);
+            res.status(200).send(result);
+        });
     });
 
     app.get('/api/temp', (req, res) => {
@@ -56,7 +62,6 @@ module.exports = function (app) {
             value: Math.round(Math.random() * 80 - 40).toString(),
             date: moment().format('MMMM Do YYYY, h:mm:ss a'),
         };
-    
         res.status(200).send(result);
     });
 
@@ -65,18 +70,3 @@ module.exports = function (app) {
         res.status(201).send({ done: true });
     });
 }
-
-let fakeMessages = [
-    {
-        date: "2018-04-01 1:32:23PM",
-        text: "Hello there!",
-    },
-    {
-        date: "2018-05-01 1:29:03PM",
-        text: "Do dooo doooo",
-    },
-    {
-        date: "2018-07-12 11:02:03AM",
-        text: "TESTING!!",
-    },
-];

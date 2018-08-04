@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, FormGroup, InputGroup, Button } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
-import { sendMessage } from '../actions/index';
+import { sendMessage, fetchMessages } from '../actions/index';
 
 class MessageForm extends Component {
   constructor(props) {
@@ -13,6 +13,7 @@ class MessageForm extends Component {
   submitMessage() {
     const value = { text: this.refs.message_text.value };
     this.props.sendMessage(value);
+    this.props.fetchMessages();
   }
 
   render() {
@@ -35,5 +36,5 @@ class MessageForm extends Component {
 }
 
 
-export default connect(null, { sendMessage })(MessageForm);
+export default connect(null, { sendMessage, fetchMessages })(MessageForm);
 
