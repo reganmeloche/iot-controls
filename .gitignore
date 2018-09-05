@@ -24,3 +24,5 @@ yarn-error.log*
 
 /config/dev.js
 config/dev.js
+
+/nodeMCU/iot_control_keys

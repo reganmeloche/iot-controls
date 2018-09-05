@@ -9,6 +9,10 @@ class TempReader extends Component {
         super(props);
         this.getTemp = this.getTemp.bind(this);
     }
+
+    componentDidMount() {
+        this.props.readTemp();
+    }
     
     getTemp() {
         this.props.readTemp();

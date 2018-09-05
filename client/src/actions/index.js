@@ -1,4 +1,5 @@
 import axios from 'axios';
+import sleep from 'await-sleep'
 
 export const INIT = 'init';
 export const SEND_MESSAGE = 'send_message';
@@ -33,7 +34,10 @@ export function fetchMessages() {
     };
 }
 
-export function readLight() {
+export async function readLight() {
+    await axios.get('/api/light_req');
+    await sleep(500);
+
     const request = axios.get('/api/light');
     return {
         type: READ_LIGHT,
@@ -49,16 +53,18 @@ export function toggleLight(turnOn) {
     };
 }
 
-export function readTemp() {
+export async function readTemp() {
+    await axios.get('/api/temp_req');
+    await sleep(500);
+    
     const request = axios.get('/api/temp');
-
     return {
         type: READ_TEMP,
         payload: request,
     };
 }
 
-// dir = {up, down, left, right}
+// dir = { r, l, f, b}
 export function control(dir) {
     axios.post('/api/control', { dir });
     return {

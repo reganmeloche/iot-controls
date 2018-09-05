@@ -19,24 +19,24 @@ class MotionControl extends Component {
         <div>
             <Row className="show-grid">
                 <Col xs={4} xsOffset={4}>
-                <Button onClick={this.applyControl.bind(this,'up')}>
+                <Button onClick={this.applyControl.bind(this,'f')}>
                     <Glyphicon glyph="glyphicon glyphicon-arrow-up" />
                 </Button>
                 </Col>
             </Row>
             <Row className="show-grid">
                 <Col xs={4} xsOffset={4}>
-                    <Button className="pull-left" onClick={this.applyControl.bind(this,'left')}>
+                    <Button className="pull-left" onClick={this.applyControl.bind(this,'l')}>
                         <Glyphicon glyph="glyphicon glyphicon-arrow-left" />
                     </Button>
-                    <Button className="pull-right" onClick={this.applyControl.bind(this,'right')}>
+                    <Button className="pull-right" onClick={this.applyControl.bind(this,'r')}>
                         <Glyphicon glyph="glyphicon glyphicon-arrow-right" />
                     </Button>
                 </Col>
             </Row>
             <Row className="show-grid">
                 <Col xs={4} xsOffset={4}>
-                    <Button onClick={this.applyControl.bind(this,'down')}>
+                    <Button onClick={this.applyControl.bind(this,'b')}>
                         <Glyphicon glyph="glyphicon glyphicon-arrow-down" />
                     </Button>
                 </Col>
