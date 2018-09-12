@@ -1,5 +1,5 @@
 import axios from 'axios';
-import sleep from 'await-sleep'
+import sleep from 'sleep-promise'
 
 export const INIT = 'init';
 export const SEND_MESSAGE = 'send_message';
