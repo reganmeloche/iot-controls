@@ -1,5 +1,6 @@
 const mqtt = require('mqtt');
 const moment = require('moment');
+const passport = require('passport');
 const keys = require('../config/keys');
 
 // TODO: Don't make this global
@@ -20,6 +21,7 @@ const client = mqtt.connect(keys.mqttUrl);
 const MessageLib = require('./messageLib');
 
 module.exports = function (app) {
+    /*** MQTT ***/
     client.on('connect', function () {
         client.subscribe(SUBSCRIBE_TOPIC, function (err) {
           if (err) {
@@ -42,11 +44,24 @@ module.exports = function (app) {
         }
     });
 
-    app.post('/api/init', (req, res) => {
-        console.log('Initializing...');
-        res.status(201).send({ done: true });    
+    /*** AUTH ***/
+    app.post('/api/login', passport.authenticate('local', {
+            failureRedirect: '/',
+            // failureFlash: true,
+        }),
+        (req, res) => { res.status(200).send(req.user); },
+    );
+
+    app.get('/api/fetch_user', (req, res) => {
+        res.status(200).send(req.user);
     });
 
+    app.get('/api/logout', (req, res) => {
+        req.logout();
+        res.status(200).send({ message: 'logged out' });
+    });
+
+    /*** MAIN CONTROLS ***/
     app.post('/api/light', (req, res) => {
         const { turnOn } = req.body;
         console.log(`Toggling light ${turnOn}...`);

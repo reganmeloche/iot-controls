@@ -2,6 +2,9 @@ import axios from 'axios';
 import sleep from 'sleep-promise'
 
 export const INIT = 'init';
+export const LOGIN = 'login';
+export const FETCH_USER = 'fetch_user';
+export const LOGOUT = 'logout';
 export const SEND_MESSAGE = 'send_message';
 export const FETCH_MESSAGES = 'fetch_messages';
 export const READ_LIGHT = 'read_light';
@@ -15,6 +18,30 @@ export function init() {
     return {
         type: INIT,
         payload: null,
+    };
+}
+
+export function login(password) {
+    const request = axios.post('/api/login', { username: 'bob', password: password.text })
+    return {
+        type: LOGIN,
+        payload: request,
+    };
+}
+
+export function fetchUser() {
+    const request = axios.get('/api/fetch_user');
+    return {
+        type: FETCH_USER,
+        payload: request,
+    };
+}
+
+export function logout() {
+    const request = axios.get('/api/logout');
+    return {
+        type: LOGOUT,
+        payload: request,
     };
 }
 
