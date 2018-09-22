@@ -86,6 +86,9 @@ module.exports = function (app) {
 
     app.post('/api/message', (req, res) => {
         console.log('Saving message to db...');
+        req.body.text = req.body.text.substr(0, 16);
+        const query = `WD${req.body.text}`;
+        client.publish(PUBLISH_TOPIC, query);
         MessageLib.save(req.body).then((result) => {
             res.status(201).send(result);
         });

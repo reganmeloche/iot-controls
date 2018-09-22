@@ -46,6 +46,7 @@ export function logout() {
 }
 
 export function sendMessage(message) {
+    message.text = message.text.substr(0, 16);
     axios.post(`/api/message`, message);
     return {
         type: SEND_MESSAGE,

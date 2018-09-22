@@ -23,7 +23,7 @@ class MessageForm extends Component {
                 <FormGroup>
                     <InputGroup>
                         <InputGroup.Addon>Message</InputGroup.Addon>
-                        <input className="form-control" type="text" ref="message_text"/>
+                        <input className="form-control" type="text" ref="message_text" maxLength="16"/>
                         <InputGroup.Button>
                             <Button type="submit" onClick={this.submitMessage}>Send</Button>
                         </InputGroup.Button>
