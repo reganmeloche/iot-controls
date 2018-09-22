@@ -1,5 +1,6 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include <LiquidCrystal_I2C.h>
 
 bool DEBUG = true;
 
@@ -23,13 +24,12 @@ const char* WIFI_PASSWORD = "[FILL ME IN]";
 WiFiClient espClient;
 PubSubClient client(MQTT_SERVER, MQTT_PORT, espClient);
 
-
 /*** CONTROLS SETUP ***/
 
-int LED_PIN = 5; // D1 on NodeMCU
+int LED_PIN = 10; // SD3 on NodeMCU
 #define TEMP_PIN A0
 
-#define MOTOR_ENA D2
+#define MOTOR_ENA D5
 #define MOTOR_IN1 D3
 #define MOTOR_IN2 D4
 
@@ -38,6 +38,8 @@ int LED_PIN = 5; // D1 on NodeMCU
 #define MOTOR_IN4 D8
 
 int MOTOR_PERIOD = 100;
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 void callback(char* topic, byte* payload, unsigned int length);
 
@@ -53,7 +55,10 @@ void setup() {
   pinMode(MOTOR_IN2, OUTPUT);
   pinMode(MOTOR_ENB, OUTPUT);
   pinMode(MOTOR_IN3, OUTPUT);
-  pinMode(MOTOR_IN4, OUTPUT);
+  pinMode(MOTOR_IN4, OUTPUT); 
+  
+  lcd.init();
+  lcd.begin(16,2);
 }
 
 
@@ -136,12 +141,12 @@ void connectPubSub() {
  * callback:
  * Executed when a message is read from MQTT
  */
-void callback(char* topic, byte* payload, unsigned int length) {
+void callback(char* topic, byte* payload, unsigned int len) {  
   if (DEBUG) {
     Serial.print("Message arrived [");
     Serial.print(topic);
     Serial.print("] ");
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < len; i++) {
       Serial.print((char)payload[i]);
     }
     Serial.println();
@@ -150,8 +155,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
   // parse out and handle control
   char isRead = ((char)payload[0] == 'R');
   char command = (char)payload[1];
-  char value = (char)payload[2];
-
+  char value[16] = "";
+  
+  for (int i = 2; i < len; i++) {
+    value[i - 2] = (char)payload[i]; 
+  }
   control(isRead, command, value);
 }
 
@@ -162,23 +170,27 @@ void callback(char* topic, byte* payload, unsigned int length) {
  * isRead: True if the command is a "read" command (e.g. reading temp)
  *         False if it is a "write" command (e.g. moving a motor)
  * command: Character that denotes the sensor/actuator being triggered
- *          M = motor, L = LED, T = temperature
- * value: Character denoting the actual value being sent to an actuator
+ *          M = motor, L = LED, T = temperature, D = display
+ * value: String denoting the actual value being sent to an actuator
  *        e.g. for the motor, can be {f, l, r, b}
+ *        for the message display, it is the text
 */
-void control(bool isRead, char command, char value) {
+void control(bool isRead, char command, char* value) {
   if (command == 'L') {
     if (isRead) {
       readLED();
     } else {
-      toggleLED(value == '1');
+      toggleLED(value[0] == '1');
     }
   }
   else if (command == 'T') {
     readTemp();
   }
   else if (command == 'M') {
-    controlMotor(value);
+    controlMotor(value[0]);
+  }
+  else if (command == 'D') {
+    displayMessage(value);
   }
 }
 
@@ -188,6 +200,19 @@ void control(bool isRead, char command, char value) {
  */
 void toggleLED(bool turnOn) {
   digitalWrite(LED_PIN, turnOn? HIGH : LOW);
+}
+
+/*
+ * displayMessage:
+ * Prints the message to the LCD display
+ */
+void displayMessage(char* message) {
+  lcd.clear();
+  lcd.backlight();
+  lcd.print(message);
+  delay(2000);
+  lcd.clear();
+  lcd.noBacklight();
 }
 
 /*
@@ -207,7 +232,6 @@ void readLED() {
  */
 void readTemp() {
   int val = analogRead(TEMP_PIN);
-  myPrintln((String)val);
   float voltage = (val/1024.0) * 3.3;
   float res = (voltage - 0.5) * 100;
 
