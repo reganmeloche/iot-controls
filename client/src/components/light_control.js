@@ -28,26 +28,31 @@ class LightControl extends Component {
             <div>
                 <Form horizontal>
                     <FormGroup>
-                        <Col componentClass={ControlLabel} xs={3} xsOffset={2}>
-                            Toggle light:
+                        <Col xs={4} xsOffset={2}>
+                            <ControlLabel className="pull-right">
+                                Toggle Light:
+                            </ControlLabel>
                         </Col>
-                        <Col xs={4} >
-                            <Radio 
-                                name="radioGroup" 
-                                checked={status}
-                                onChange={this.toggle.bind(this, true)}
-                                inline
-                            >
-                                On
-                            </Radio>{' '}
-                            <Radio 
-                                name="radioGroup" 
-                                checked={!status} 
-                                onChange={this.toggle.bind(this, false)}
-                                inline
-                            >
-                                Off
-                            </Radio>{' '}
+
+                        <Col xs={4}>
+                            <span className="pull-left">
+                                <Radio 
+                                    name="radioGroup" 
+                                    checked={status}
+                                    onChange={this.toggle.bind(this, true)}
+                                    inline
+                                >
+                                    On
+                                </Radio>{' '}
+                                <Radio 
+                                    name="radioGroup" 
+                                    checked={!status} 
+                                    onChange={this.toggle.bind(this, false)}
+                                    inline
+                                >
+                                    Off
+                                </Radio>{' '}
+                            </span>
                         </Col>
                     </FormGroup>
                 </Form>

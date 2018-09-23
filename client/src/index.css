@@ -6,11 +6,22 @@ body {
 
 .control_area {
   border-radius: 5px;
-  background-color: #d4f7f2;
+  background-color: yellowgreen;
   padding: 10px;
 }
 
 .message_history {
-  max-height: 200px;
+  max-height: 305px;
   overflow-y: scroll;
+}
+
+.control_divider {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid olivedrab;
+
+}
+
+.control_text {
+  text-align: left !important;
 }

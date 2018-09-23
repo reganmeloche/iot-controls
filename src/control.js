@@ -7,8 +7,12 @@ const keys = require('../config/keys');
 let readValues = {
     light: false,
     temp: {
-        date: 'unknown',
-        value: 'unknown',
+        date: 'Unknown',
+        value: 'Unknown',
+    },
+    status: {
+        date: 'Unknown',
+        value: false,
     },
 };
 
@@ -42,6 +46,9 @@ module.exports = function (app) {
         if (msg[0] === 'L') {
             readValues.light = (msg[1] === '1');
         }
+        if (msg[0] === 'S') {
+            readValues.status.value = true;
+        }
     });
 
     /*** AUTH ***/
@@ -62,6 +69,22 @@ module.exports = function (app) {
     });
 
     /*** MAIN CONTROLS ***/
+    app.get('/api/status', (req, res) => {
+        console.log('Reading status...');
+        res.status(200).send({ status: readValues.status });
+    });
+
+    app.get('/api/status_req', (req, res) => {
+        console.log('Requesting device status');
+        const query = 'RS0';
+        client.publish(PUBLISH_TOPIC, query);
+        readValues.status = {
+            value: false,
+            date: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        }
+        res.status(200).send({ done: true });
+    });
+
     app.post('/api/light', (req, res) => {
         const { turnOn } = req.body;
         console.log(`Toggling light ${turnOn}...`);

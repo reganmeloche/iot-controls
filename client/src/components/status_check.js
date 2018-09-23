@@ -2,30 +2,29 @@ import React, { Component } from 'react';
 import { Row, ControlLabel, Col, Glyphicon } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
-import { readTemp } from '../actions/index';
+import { checkStatus } from '../actions/index';
 
-class TempReader extends Component {
+class StatusCheck extends Component {
     constructor(props) {
         super(props);
-        this.getTemp = this.getTemp.bind(this);
+        this.getStatus = this.getStatus.bind(this);
     }
 
     componentDidMount() {
-        this.props.readTemp();
+        this.props.checkStatus();
     }
     
-    getTemp() {
-        this.props.readTemp();
+    getStatus() {
+        this.props.checkStatus();
     }
 
     render() {
+        let statusValue = 'Inactive';
+        let statusDate = 'unknown';
 
-        let tempValue = 'unknown';
-        let tempDate = 'unknown';
-
-        if (this.props.temperature) {
-            tempValue = this.props.temperature.value;
-            tempDate = this.props.temperature.date;
+        if (this.props.status) {
+            statusValue = this.props.status.value ? "Active" : "Inactive";
+            statusDate = this.props.status.date;
         }
 
         return (
@@ -33,16 +32,16 @@ class TempReader extends Component {
                 <Row>
                     <Col xs={4} xsOffset={2}>
                         <ControlLabel className="pull-right">
-                            Temperature (C):
+                            Device Status:
                         </ControlLabel>
                     </Col>
                     <Col xs={2}>
                         <span className="pull-left">
-                            {tempValue}
+                            {statusValue}
                         </span>
                     </Col>
                     <Col xs={2}>
-                        <a href="#" onClick={this.getTemp}>
+                        <a href="#" onClick={this.getStatus}>
                             <Glyphicon glyph="glyphicon glyphicon-refresh" />
                         </a>
                     </Col>
@@ -50,12 +49,12 @@ class TempReader extends Component {
                 <Row>
                     <Col xs={4} xsOffset={2}>
                         <ControlLabel className="pull-right">
-                            Last reading:
+                            Last check:
                         </ControlLabel>
                     </Col>
                     <Col xs={6}>
                         <span className="pull-left">
-                            {tempDate}
+                            {statusDate}
                         </span>
                     </Col>
                 </Row>
@@ -66,10 +65,10 @@ class TempReader extends Component {
 
 function mapStateToProps(state) {
     return {
-      temperature: state.temperature,
+      status: state.status,
     };
 }
   
-export default connect(mapStateToProps, { readTemp })(TempReader);
+export default connect(mapStateToProps, { checkStatus })(StatusCheck);
 
 

@@ -5,6 +5,7 @@ export const INIT = 'init';
 export const LOGIN = 'login';
 export const FETCH_USER = 'fetch_user';
 export const LOGOUT = 'logout';
+export const CHECK_STATUS = 'check_status';
 export const SEND_MESSAGE = 'send_message';
 export const FETCH_MESSAGES = 'fetch_messages';
 export const READ_LIGHT = 'read_light';
@@ -41,6 +42,17 @@ export function logout() {
     const request = axios.get('/api/logout');
     return {
         type: LOGOUT,
+        payload: request,
+    };
+}
+
+export async function checkStatus() {
+    await axios.get('/api/status_req');
+    await sleep(500);
+
+    const request = axios.get('/api/status');
+    return {
+        type: CHECK_STATUS,
         payload: request,
     };
 }
