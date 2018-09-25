@@ -170,7 +170,6 @@ void callback(char* topic, byte* payload, unsigned int len) {
  * isRead: True if the command is a "read" command (e.g. reading temp)
  *         False if it is a "write" command (e.g. moving a motor)
  * command: Character that denotes the sensor/actuator being triggered
-<<<<<<< HEAD
  *          M = motor, L = LED, T = temperature, D = display, S = status
  * value: String denoting the actual value being sent to an actuator
  *        e.g. for the motor, can be {f, l, r, b}
