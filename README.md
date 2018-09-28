@@ -16,7 +16,7 @@ The dashboard includes a simple password login, and has the following capabiliti
 
 ### Hardware
 - NodeMCU chips: https://www.amazon.ca/gp/product/B06VV39XD8/ref=oh_aui_detailpage_o06_s00?ie=UTF8&psc=1
-- L298N Motor Driver: https://www.amazon.ca/gp/product/B06VV39XD8/ref=oh_aui_detailpage_o06_s00?ie=UTF8&psc=1
+- L298N Motor Driver: https://www.amazon.ca/gp/product/B01C3YNI2M/ref=oh_aui_detailpage_o08_s00?ie=UTF8&psc=1
 - Motorized Chassis: https://www.amazon.ca/gp/product/B01N7KJIW4/ref=oh_aui_detailpage_o07_s00?ie=UTF8&psc=1
 - LCD Display (I2C): https://www.amazon.ca/gp/product/B0177XQE7K/ref=oh_aui_detailpage_o00_s00?ie=UTF8&psc=1
 - Breadboards: https://www.amazon.ca/gp/product/B07589R1Q3/ref=oh_aui_detailpage_o06_s00?ie=UTF8&psc=1
@@ -40,3 +40,10 @@ The dashboard includes a simple password login, and has the following capabiliti
 
 ## Try it out
 This was a personal project that I worked in an effort to get familiar with full-stack IoT. I worked on it during my spare time, and it took me 3 months to complete. Feel free to use any of the components here for your own projects and please let me know how they turn out. Good luck!
+
+## Ideas for future development
+- Log all user interactions: Could integrate into a cloud platform like AWS/Azure
+- Smooth out the motor controls: Currently the controls are just triggered by distinct button pushes. Running the motor while a control is held down would be much smoother
+- Add a camera and stream it to the dashboard
+- Improve the battery power: Currently everything is powered off of a 9v battery, and it drains fairly quickly
+- Add in path planning: Could make a simple program that constantly seeks out the warmest area
