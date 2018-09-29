@@ -29,13 +29,12 @@ PubSubClient client(MQTT_SERVER, MQTT_PORT, espClient);
 int LED_PIN = 10; // SD3 on NodeMCU
 #define TEMP_PIN A0
 
-#define MOTOR_ENA D5
-#define MOTOR_IN1 D3
-#define MOTOR_IN2 D4
-
-#define MOTOR_ENB D7
+#define MOTOR_ENA D3
+#define MOTOR_IN1 D4
+#define MOTOR_IN2 D5
 #define MOTOR_IN3 D6
-#define MOTOR_IN4 D8
+#define MOTOR_IN4 D7
+#define MOTOR_ENB D8
 
 int MOTOR_PERIOD = 100;
 
