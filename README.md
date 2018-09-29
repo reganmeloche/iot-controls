@@ -1,8 +1,10 @@
 # iot-controls
 
+[picture]
+
 ## About
 
-Welcome to my full-stack IoT project. This project consists of a NodeMCU chip mounted on a motorized chassis and connected to various other hardware (LED, temperature sensor, LCD display). This device is controlled from a dashboard running on Heroku, which comprises the majority of this repo. The code that actually gets run on the device is in the 'NodeMCU' folder, and contains its own Readme file. The dashboard project is a React web app generated from create-react-app, running node.js in the back-end. The front-end React/Redux code is in the 'client' folder, and the back-end server functionality makes up the rest of the repo. Another major component is the MQTT server, which I have provisioned through CloudMQTT (https://www.cloudmqtt.com/), just using the Cute Cat free tier. 
+Welcome to my full-stack IoT project. This project consists of a NodeMCU chip mounted on a motorized chassis and connected to various other hardware (LED, temperature sensor, LCD display). This device is controlled from a dashboard running on Heroku, which comprises the majority of this repo. The code that actually gets run on the device is in the 'nodeMCU' folder, and contains its own Readme file. The dashboard project is a React web app generated from create-react-app, running node.js in the back-end. The front-end React/Redux code is in the 'client' folder, and the back-end server functionality makes up the rest of the repo. Another major component is the MQTT server, which I have provisioned through CloudMQTT (https://www.cloudmqtt.com/). This is described in further detail below.
 
 The dashboard includes a simple password login, and has the following capabilities:
 - Check the status of the device, with a timestamp of the last time checked
@@ -11,6 +13,8 @@ The dashboard includes a simple password login, and has the following capabiliti
 - Read the temperature from a temperature sensor
 - Send a 16-character message to be displayed on the LCD
 - Store past messages in a Mongo database
+
+[image of dashboard]
 
 ## Technologies
 
@@ -26,6 +30,8 @@ The dashboard includes a simple password login, and has the following capabiliti
   - Jumper wires
   - 100 Ohm resistor
   - 9V battery connector
+
+The total cost of all the hardware is just over $100 CAD.
   
 ### Software
 - Heroku: For running the dashboard in the cloud
@@ -38,8 +44,20 @@ The dashboard includes a simple password login, and has the following capabiliti
 - Passport: For login and session management
 - Other useful npm packages: react-bootstrap, sleep-promise, mqtt, moment
 
+All of the software used in this project is free, provided you stay on the free tier for CloudMQTT and Heroku.
+
+## Circuit Diagram
+[diagram]
+
+## Communication
+The device and the dashboard communicate using CloudMQTT, which is essentially a pub/sub queue that is hosted separately from the dashboard, and it works as follows: When I trigger a control from the dashboard, say turning on the LED, the back-end code of the dashboard publishes a message to this queue. Meanwhile, the NodeMCU on the device, which is connected to the internet over WiFi, is subscribed to this queue, so it receives any messages that are published. Once a message is received, it triggers a callback function, to which the queued message is passed. There is code on the NodeMCU that parses the message and triggers the proper controls. In the case of the LED, this is simply triggering the pin connected to the LED.
+
+While most of the controls are in the direction of the dashboard to the device, there are a few situations that work in the opposite direction. For example, the temperature sensor - this is a two-step process. First of all, when the user requests the temperature, the dashboard must first issue the request to the device via the queue, using the same process described above. However, the temperature cannot be sent back immediately. All communication between the dash and the device must happen using the queue. So once the device receives the request for the temperature, the value is read from the sensor, and then this value is published from the device to the queue. The dashboard is subscribed to the queue, and when it picks up a message, a global value representing the temperature is updated accordingly. After the initial request for the temperature from the dash, a second request is querying that global value. A delay is programmed in between these requests to allow some time for the dash to receive the message containing the temperature that was sent by the device. The global value is grabbed and it updates the dashboard accordingly. The same two-step process is used for both checking i the device is online, and for checking the status of the LED.
+
+
 ## Try it out
 This was a personal project that I worked in an effort to get familiar with full-stack IoT. I worked on it during my spare time, and it took me 3 months to complete. Feel free to use any of the components here for your own projects and please let me know how they turn out. Good luck!
+
 
 ## Ideas for future development
 - Log all user interactions: Could integrate into a cloud platform like AWS/Azure
