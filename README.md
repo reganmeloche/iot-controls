@@ -1,10 +1,12 @@
 # iot-controls
 
-[picture]
+<img src="/pics/side_view.JPG" width="500">
+
+<img src="/pics/front_view.JPG" width="500">
 
 ## About
 
-Welcome to my full-stack IoT project. This project consists of a NodeMCU chip mounted on a motorized chassis and connected to various other hardware (LED, temperature sensor, LCD display). This device is controlled from a dashboard running on Heroku, which comprises the majority of this repo. The code that actually gets run on the device is in the 'nodeMCU' folder, and contains its own Readme file. The dashboard project is a React web app generated from create-react-app, running node.js in the back-end. The front-end React/Redux code is in the 'client' folder, and the back-end server functionality makes up the rest of the repo. Another major component is the MQTT server, which I have provisioned through CloudMQTT (https://www.cloudmqtt.com/). This is described in further detail below.
+Welcome to my full-stack IoT project. This project consists of a NodeMCU chip mounted on a motorized chassis and connected to various other hardware (LED, temperature sensor, LCD display). This device is controlled from a dashboard running on Heroku, which comprises the majority of this repo. The code that actually gets run on the device is in the 'nodeMCU' folder, and contains its own Readme file. The dashboard project is a React web app generated from create-react-app, running node.js in the back-end. The front-end React/Redux code is in the 'client' folder, and the back-end server functionality makes up the rest of the repo. Another major component is the MQTT server, which is running through CloudMQTT (https://www.cloudmqtt.com/). This is described in further detail below.
 
 The dashboard includes a simple password login, and has the following capabilities:
 - Check the status of the device, with a timestamp of the last time checked
@@ -12,18 +14,18 @@ The dashboard includes a simple password login, and has the following capabiliti
 - Toggle an LED
 - Read the temperature from a temperature sensor
 - Send a 16-character message to be displayed on the LCD
-- Store past messages in a Mongo database
+- Store past messages in a database
 
-[image of dashboard]
+<img src="/pics/dashboard.png" width="500">
 
 ## Technologies
 
 ### Hardware
-- NodeMCU chips: https://www.amazon.ca/gp/product/B06VV39XD8/ref=oh_aui_detailpage_o06_s00?ie=UTF8&psc=1
-- L298N Motor Driver: https://www.amazon.ca/gp/product/B01C3YNI2M/ref=oh_aui_detailpage_o08_s00?ie=UTF8&psc=1
-- Motorized Chassis: https://www.amazon.ca/gp/product/B01N7KJIW4/ref=oh_aui_detailpage_o07_s00?ie=UTF8&psc=1
-- LCD Display (I2C): https://www.amazon.ca/gp/product/B0177XQE7K/ref=oh_aui_detailpage_o00_s00?ie=UTF8&psc=1
-- Breadboards: https://www.amazon.ca/gp/product/B07589R1Q3/ref=oh_aui_detailpage_o06_s00?ie=UTF8&psc=1
+- <a href="https://www.amazon.ca/gp/product/B06VV39XD8/ref=oh_aui_detailpage_o06_s00?ie=UTF8&psc=1" target="_blank">NodeMCU Chip</a>
+- <a href="https://www.amazon.ca/gp/product/B01C3YNI2M/ref=oh_aui_detailpage_o08_s00?ie=UTF8&psc=1" target="_blank">L298N Motor Driver</a>
+- <a href="https://www.amazon.ca/gp/product/B01N7KJIW4/ref=oh_aui_detailpage_o07_s00?ie=UTF8&psc=1" target="_blank">Motorized Chassis</a>
+- <a href="https://www.amazon.ca/gp/product/B0177XQE7K/ref=oh_aui_detailpage_o00_s00?ie=UTF8&psc=1" target="_blank">LCD Display (I2C)</a>
+- <a href="https://www.amazon.ca/gp/product/B07589R1Q3/ref=oh_aui_detailpage_o06_s00?ie=UTF8&psc=1" target="_blank">Breadboards</a>
 - Other standard circuit components
   - Temperature sensor (TMP36)
   - LED
@@ -40,14 +42,17 @@ The total cost of all the hardware is just over $100 CAD.
 - create-react-app: For setting up the React front-end project
 - React/Redux: For front-end project and state management
 - Node.js (and Express): For the backend of the dashboard
-- MongoDB: For the database
+- MongoDB: For the database that stores the display messages
 - Passport: For login and session management
 - Other useful npm packages: react-bootstrap, sleep-promise, mqtt, moment
 
-All of the software used in this project is free, provided you stay on the free tier for CloudMQTT and Heroku.
+All of the software used in this project is free, provided you stay on the free tiers for CloudMQTT and Heroku.
 
 ## Circuit Diagram
-[diagram]
+
+<img src="/pics/diagram.jpg" width="500">
+
+<img src="/pics/top_view.JPG" width="500">
 
 ## Communication
 The device and the dashboard communicate using CloudMQTT, which is essentially a pub/sub queue that is hosted separately from the dashboard, and it works as follows: When I trigger a control from the dashboard, say turning on the LED, the back-end code of the dashboard publishes a message to this queue. Meanwhile, the NodeMCU on the device, which is connected to the internet over WiFi, is subscribed to this queue, so it receives any messages that are published. Once a message is received, it triggers a callback function, to which the queued message is passed. There is code on the NodeMCU that parses the message and triggers the proper controls. In the case of the LED, this is simply triggering the pin connected to the LED.
@@ -59,7 +64,7 @@ While most of the controls are in the direction of the dashboard to the device, 
 This was a personal project that I worked in an effort to get familiar with full-stack IoT. I worked on it during my spare time, and it took me 3 months to complete. Feel free to use any of the components here for your own projects and please let me know how they turn out. Good luck!
 
 
-## Ideas for future development
+## Future Development
 - Log all user interactions: Could integrate into a cloud platform like AWS/Azure
 - Smooth out the motor controls: Currently the controls are just triggered by distinct button pushes. Running the motor while a control is held down would be much smoother
 - Add a camera and stream it to the dashboard
