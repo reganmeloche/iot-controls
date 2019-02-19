@@ -1,6 +1,6 @@
 # iot-controls
 
-<img src="https://photos.google.com/share/AF1QipPiCa3R3Z_6ZhMMUtVcYwhTp6m6yrix9wZA4wSbUKjgzJ7RoHYMzZs-IheZiTa_Mg/photo/AF1QipMCS9ZR0FnQHy8NFAuhrAqQPW7mhvwu97QFwXwR?key=RmlnSXBuM2JOOUpRWDFNN2I4eHhnNW42U3E0am5n" width="500">
+<img src="/pics/side_view.JPG" width="500">
 
 <img src="/pics/front_view.JPG" width="500">
 
